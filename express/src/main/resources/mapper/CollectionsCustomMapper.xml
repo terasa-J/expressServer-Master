@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.express.dao.CollectionsCustomMapper" >
+  <resultMap id="BaseResultMap" type="com.express.pojo.Collections" >
+    <id column="collectionId" property="collectionid" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    collectionId, tel, productId
+  </sql>
+  
+  <delete id="deleteByproductId" parameterType="java.lang.Integer" >
+    delete from collections
+    where productId = #{productId,jdbcType=INTEGER}
+  </delete>
+  
+ 
+</mapper>

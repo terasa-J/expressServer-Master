@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.express.dao.CollectionsMapper" >
+  <resultMap id="BaseResultMap" type="com.express.pojo.Collections" >
+    <id column="collectionId" property="collectionid" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    collectionId, tel, productId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from collections
+    where collectionId = #{collectionid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from collections
+    where collectionId = #{collectionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.express.pojo.Collections" >
+    insert into collections (collectionId, tel, productId
+      )
+    values (#{collectionid,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.express.pojo.Collections" >
+    insert into collections
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="collectionid != null" >
+        collectionId,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="collectionid != null" >
+        #{collectionid,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.express.pojo.Collections" >
+    update collections
+    <set >
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where collectionId = #{collectionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.express.pojo.Collections" >
+    update collections
+    set tel = #{tel,jdbcType=VARCHAR},
+      productId = #{productid,jdbcType=INTEGER}
+    where collectionId = #{collectionid,jdbcType=INTEGER}
+  </update>
+</mapper>

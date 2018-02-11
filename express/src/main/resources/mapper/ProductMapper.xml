@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.express.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.express.pojo.Product" >
+    <id column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="createAt" property="createat" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="cId" property="cid" jdbcType="INTEGER" />
+    <result column="product_url" property="productUrl" jdbcType="VARCHAR" />
+    <result column="user_icon_url" property="userIconUrl" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, nickname, price, createAt, tel, cId, product_url, user_icon_url, content, 
+    school, phone
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.express.pojo.Product" >
+    insert into product (productId, nickname, price, 
+      createAt, tel, cId, 
+      product_url, user_icon_url, content, 
+      school, phone)
+    values (#{productid,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, 
+      #{createat,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, 
+      #{productUrl,jdbcType=VARCHAR}, #{userIconUrl,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{school,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.express.pojo.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="createat != null" >
+        createAt,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="cid != null" >
+        cId,
+      </if>
+      <if test="productUrl != null" >
+        product_url,
+      </if>
+      <if test="userIconUrl != null" >
+        user_icon_url,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="createat != null" >
+        #{createat,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="productUrl != null" >
+        #{productUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userIconUrl != null" >
+        #{userIconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.express.pojo.Product" >
+    update product
+    <set >
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="createat != null" >
+        createAt = #{createat,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cId = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="productUrl != null" >
+        product_url = #{productUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userIconUrl != null" >
+        user_icon_url = #{userIconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.express.pojo.Product" >
+    update product
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      createAt = #{createat,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      cId = #{cid,jdbcType=INTEGER},
+      product_url = #{productUrl,jdbcType=VARCHAR},
+      user_icon_url = #{userIconUrl,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+</mapper>

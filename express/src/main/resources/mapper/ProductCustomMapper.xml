@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.express.dao.ProductCustomMapper" >
+  <resultMap id="BaseResultMap" type="com.express.pojo.Product" >
+   <id column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="createAt" property="createat" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="cId" property="cid" jdbcType="INTEGER" />
+    <result column="product_url" property="productUrl" jdbcType="VARCHAR" />
+    <result column="user_icon_url" property="userIconUrl" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   productId, nickname, price, createAt, tel, cId, product_url, user_icon_url, content, 
+    school, phone
+  </sql>
+  <select id="selectProducts" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+  </select>
+  
+ <!--查看个人发布的快递  --> 
+  <select id="selectMyProducts" resultMap="BaseResultMap" parameterType="com.express.pojo.Person"  >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where tel = #{tel,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectByTel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  
+    <include refid="Base_Column_List" />
+     from product 
+     where productId in
+	(select productId from collections where tel= #{tel,jdbcType=VARCHAR})
+  </select>
+  
+</mapper>

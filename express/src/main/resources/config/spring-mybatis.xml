@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xmlns:tx="http://www.springframework.org/schema/tx"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+		<!-- 自动扫描 -->
+        <context:component-scan base-package="com.express"/>
+        <!--1. 引入配置文件 -->
+        <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="location" value="classpath:/properties/jdbc.properties"/>
+        </bean>
+        <!--2.<context:property-placeholder location="classpath:/properties/jdbc.properties"/>-->
+         <!--数据源，使用dbcp-->
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+            destroy-method="close">
+            <property name="driverClassName" value="${jdbc.driver}" />
+            <property name="url" value="${jdbc.url}" />
+            <property name="username" value="${jdbc.username}" />
+            <property name="password" value="${jdbc.password}" />
+            <!-- 初始化连接大小 -->
+            <property name="initialSize" value="${jdbc.initialSize}"></property>
+            <!-- 连接池最大数量 -->
+            <property name="maxActive" value="${jdbc.maxActive}"></property>
+            <!-- 连接池最大空闲 -->
+            <property name="maxIdle" value="${jdbc.maxIdle}"></property>
+            <!-- 连接池最小空闲 -->
+            <property name="minIdle" value="${jdbc.minIdle}"></property>
+            <!-- 获取连接最大等待时间 -->
+            <property name="maxWait" value="${jdbc.maxWait}"></property>
+        </bean>
+
+        <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <!-- 自动扫描mapping.xml文件 -->
+            <property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
+            <property name="typeAliasesPackage" value="com.express.pojo"/>
+        </bean>
+		
+		 <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <property name="basePackage" value="com.express.dao"/>
+            <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        </bean>
+        <!-- 4. 事务管理 : DataSourceTransactionManager -->
+        <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource"/>
+        </bean>
+        <!-- 5. 使用声明式事务 -->
+        <tx:annotation-driven transaction-manager="txManager"/>
+        <!--
+        事物的具体内容
+       -->
+        <!--<tx:advice id="transactionAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+        <!--<tx:method name="add*" propagation="REQUIRED" />-->
+        <!--<tx:method name="insert*" propagation="REQUIRED" />-->
+        <!--<tx:method name="save*" propagation="REQUIRED" />-->
+        <!--<tx:method name="update*" propagation="REQUIRED" />-->
+        <!--<tx:method name="edit*" propagation="REQUIRED" />-->
+        <!--<tx:method name="delete*" propagation="REQUIRED" />-->
+        <!--<tx:method name="get*" propagation="SUPPORTS" />-->
+        <!--<tx:method name="find*" propagation="SUPPORTS" />-->
+        <!--<tx:method name="search*" propagation="SUPPORTS" />-->
+        <!--<tx:method name="*" propagation="SUPPORTS" />-->
+        <!--</tx:attributes>-->
+        <!--</tx:advice>-->
+
+        <!--定义一个切面,在定义的切面上加入事物-->
+        <!--<aop:config>-->
+        <!--<aop:pointcut id="transactionPointcut" expression="execution(* com.shihusen.ssm.service..*Impl.*(..))" />-->
+        <!--<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />-->
+        <!--</aop:config>-->
+    </beans>
